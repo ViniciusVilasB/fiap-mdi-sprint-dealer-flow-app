@@ -1,7 +1,7 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # register screen
-# register.jsx
+register.jsx
 
 # dependencies
 node_modules/
