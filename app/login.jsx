@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
-import { useRouter } from 'expo-router';
 import { useAuth } from './contexts/AuthContext';
 import { Image } from 'react-native';
 import logo from '../assets/main_icon.png'
@@ -12,18 +10,24 @@ export default function Login() {
   const [feedback, setFeedback] = useState('');
   const [loading, setLoading] = useState(false);
   const [focusedInput, setFocusedInput] = useState(null);
-  const router = useRouter();
   const { login } = useAuth();
 
   const handleLogin = async () => {
     setFeedback('');
 
     if (!email || !password) {
-      return setFeedback("Preencha e-mail e senha.");
+      //set feedback
+      return;
     }
 
     setLoading(true);
-    // analises de consistencia de dados
+    try {
+      await login({ email, password });
+    } catch (error) {
+      // setFeedback
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

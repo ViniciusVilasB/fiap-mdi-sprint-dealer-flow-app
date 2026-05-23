@@ -1,44 +1,82 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import * as SecureStore from 'expo-secure-store';
+import React, { createContext, useState, useEffect, useContext, useMemo } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AuthService from '../services/AuthService';
+import { extractPermissionsFromToken } from '../auth/permissions';
 
 const AuthContext = createContext({});
 
+const SESSION_KEY = 'user_session';
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [permissions, setPermissions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadSession = async () => {
+    const restoreSession = async () => {
       try {
-        // Recupera a sessao de forma segura
-        const session = await SecureStore.getItemAsync('user_session');
-        if (session) {
-          setUser(JSON.parse(session));
+        const token = await AuthService.getStoredToken();
+        if (!token) {
+          return;
+        }
+
+        setPermissions(extractPermissionsFromToken(token));
+
+        // Restaura cache local imediatamente para evitar flash de tela de login.
+        const cached = await AsyncStorage.getItem(SESSION_KEY);
+        if (cached) {
+          setUser(JSON.parse(cached));
+        }
+
+        // Valida a sessao no backend; em caso de 401 o interceptor ja limpa o storage.
+        try {
+          const freshUser = await AuthService.me();
+          const userData = freshUser?.user ?? freshUser;
+          setUser(userData);
+          await AsyncStorage.setItem(SESSION_KEY, JSON.stringify(userData));
+        } catch (error) {
+          if (error?.status === 401) {
+            setUser(null);
+            setPermissions([]);
+          } else {
+            console.warn('Falha ao validar sessão, mantendo cache local:', error?.message);
+          }
         }
       } catch (error) {
-        console.error("Erro ao carregar sessão:", error);
+        console.error('Erro ao restaurar sessão:', error);
       } finally {
         setIsLoading(false);
       }
     };
-    loadSession();
+    restoreSession();
   }, []);
 
-  const login = async (userData) => {
-    await SecureStore.setItemAsync('user_session', JSON.stringify(userData));
+  const login = async ({ email, password }) => {
+    const data = await AuthService.login({ email, password });
+    const userData = data?.user ?? data;
+    const token = await AuthService.getStoredToken();
+    setPermissions(extractPermissionsFromToken(token));
+    await AsyncStorage.setItem(SESSION_KEY, JSON.stringify(userData));
     setUser(userData);
+    return userData;
   };
 
   const logout = async () => {
-    await SecureStore.deleteItemAsync('user_session');
-    setUser(null);
+    try {
+      await AuthService.logout();
+    } finally {
+      await AsyncStorage.removeItem(SESSION_KEY);
+      setUser(null);
+      setPermissions([]);
+    }
   };
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({ user, permissions, login, logout, isLoading }),
+    [user, permissions, isLoading],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext);

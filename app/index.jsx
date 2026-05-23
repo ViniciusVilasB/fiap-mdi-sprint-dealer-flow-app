@@ -3,24 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-na
 import { useRouter } from 'expo-router';
 import { useAuth } from './contexts/AuthContext';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AuthView } from './auth/AuthView';
+import { PERMISSIONS } from './auth/permissions';
 
 export default function Home() {
   const router = useRouter();
   
   const { logout } = useAuth();
 
-  // Estados locais para controlar a UI
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
 
-  // Função para lidar com o clique no botão de deslogar
   const handleLogout = () => {
-    setIsUserMenuVisible(false); // Fecha o menu
+    setIsUserMenuVisible(false);
     if (logout) {
       logout();
-      // O redirecionamento acontece automaticamente pelo _layout.jsx
-    } else {
-      console.warn("Função de logout não encontrada no AuthContext.");
     }
   };
 
@@ -34,40 +31,27 @@ export default function Home() {
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: themeColors.background }]}>
-      
-      {/* Header */}
-      <View style={[styles.headerContainer, { backgroundColor: themeColors.headerFooter }]}>
-        
-        {/* Espaço reservado do ícone da esquerda */}
-        <View style={[styles.profilePlaceholder, { backgroundColor: themeColors.iconBg }]} />
 
-        {/* Container dos botões da direita */}
+      <View style={[styles.headerContainer, { backgroundColor: themeColors.headerFooter }]}>
+        <View style={[styles.profilePlaceholder, { backgroundColor: themeColors.iconBg }]} />
         <View style={styles.headerIconsContainer}>
-          
-          {/* Botão de alternar tema */}
           <TouchableOpacity 
             style={[styles.iconButton, { backgroundColor: themeColors.iconBg }]} 
             onPress={() => setIsDarkMode(!isDarkMode)}
-            activeOpacity={0.7}
-          >
+            activeOpacity={0.7}>
             <Ionicons 
               name={isDarkMode ? "sunny" : "moon"} 
               size={20} 
               color={themeColors.text} 
             />
           </TouchableOpacity>
-
-          {/* Botão de usuário e menu suspenso de logout */}
           <View>
             <TouchableOpacity 
               style={[styles.iconButton, { backgroundColor: themeColors.iconBg }]} 
               onPress={() => setIsUserMenuVisible(!isUserMenuVisible)}
-              activeOpacity={0.7}
-            >
+              activeOpacity={0.7}>
               <Ionicons name="person" size={20} color={themeColors.text} />
             </TouchableOpacity>
-
-            {/* Menu dropdown de logout */}
             {isUserMenuVisible && (
               <View style={[styles.dropdownMenu, { backgroundColor: themeColors.menuBg }]}>
                 <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
@@ -80,35 +64,26 @@ export default function Home() {
         </View>
       </View>
 
-      {/* Conteúdo da página (agora vazio) */}
       <View style={styles.mainContent} />
-
-      {/* Footer */}
       <View style={[styles.footerContainer, { backgroundColor: themeColors.headerFooter }]}>
-        
-        {/* Navegação (footer): Dashboard */}
-        <TouchableOpacity 
-          style={[styles.footerTabIcon, { backgroundColor: themeColors.iconBg }]} 
-          onPress={() => router.push('/dashboard')}
-        >
-          <MaterialCommunityIcons name="view-dashboard" size={24} color={themeColors.text} />
-        </TouchableOpacity>
 
-        {/* Navegação (footer): Carros */}
-        <TouchableOpacity 
-          style={[styles.footerTabIcon, { backgroundColor: themeColors.iconBg }]} 
-          onPress={() => router.push('/cars')}
-        >
-          <Ionicons name="car-sport" size={24} color={themeColors.text} />
-        </TouchableOpacity>
+        <AuthView permission={PERMISSIONS.ACCESS_DEALER}>
+          <TouchableOpacity
+            style={[styles.footerTabIcon, { backgroundColor: themeColors.iconBg }]}
+            onPress={() => router.push('/dashboard')}
+          >
+            <MaterialCommunityIcons name="view-dashboard" size={24} color={themeColors.text} />
+          </TouchableOpacity>
+        </AuthView>
 
-        {/* Navegação (footer): Auditoria */}
-        <TouchableOpacity 
-          style={[styles.footerTabIcon, { backgroundColor: themeColors.iconBg }]} 
-          onPress={() => router.push('/audit')}
-        >
-          <Ionicons name="clipboard-outline" size={24} color={themeColors.text} />
-        </TouchableOpacity>
+        <AuthView permission={PERMISSIONS.ACCESS_CAR_MODEL_DATA}>
+          <TouchableOpacity
+            style={[styles.footerTabIcon, { backgroundColor: themeColors.iconBg }]}
+            onPress={() => router.push('/cars')}
+          >
+            <Ionicons name="car-sport" size={24} color={themeColors.text} />
+          </TouchableOpacity>
+        </AuthView>
 
       </View>
     </SafeAreaView>
