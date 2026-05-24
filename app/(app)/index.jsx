@@ -6,8 +6,8 @@ export default function Home() {
   const { isDarkMode } = useTheme();
 
   const themeColors = {
-    background: isDarkMode ? '#121212' : '#FFFFFF',
-    textMain: isDarkMode ? '#FFFFFF' : '#111111',
+    background: isDarkMode ? '#1b1b1b' : '#f2f2f2',
+    textMain: isDarkMode ? '#f2f2f2' : '#1b1b1b',
   };
 
   return (

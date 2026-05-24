@@ -4,7 +4,8 @@ import { Slot, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { useAuth } from '../contexts/AuthContext';
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext'; // IMPORT ADICIONADO
-import iconDashboard from '../../assets/dealer_nav_icon.png'; 
+import iconDealer from '../../assets/dealer_nav_icon.png'; 
+import iconCar from '../../assets/car_nav_icon.png'; 
 import { AuthView } from '../auth/AuthView'; 
 import { PERMISSIONS } from '../auth/permissions'; 
 
@@ -24,9 +25,9 @@ function LayoutContent() {
   };
 
   const themeColors = {
-    background: isDarkMode ? '#121212' : '#F7F7F7', 
+    background: isDarkMode ? '#1b1b1b' : '#F7F7F7', 
     headerFooter: isDarkMode ? '#1E1E1E' : '#FFFFFF', 
-    text: isDarkMode ? '#FFFFFF' : '#1A1A1A',
+    text: isDarkMode ? '#8ec6f3' : '#134089',
     iconBg: isDarkMode ? '#333333' : '#E8E8E8', 
     menuBg: isDarkMode ? '#2C2C2C' : '#FFFFFF',
   };
@@ -75,20 +76,20 @@ function LayoutContent() {
         <AuthView permission={PERMISSIONS.ACCESS_DEALER}>
           <TouchableOpacity
             style={styles.footerTab}
-            onPress={() => router.push('/dashboard')}
+            onPress={() => router.push('/dealers')}
           >
-            <Image source={iconDashboard} style={[styles.logoImage, { tintColor: themeColors.text }]} />
-            <Text style={[styles.footerTabText, { color: themeColors.text }]}>Dashboard</Text>
+            <Image source={iconDealer} style={[styles.logoImage, { tintColor: themeColors.text }]} />
+            <Text style={[styles.footerTabText, { color: themeColors.text }]}>Mecânicas</Text>
           </TouchableOpacity>
         </AuthView>
 
         <AuthView permission={PERMISSIONS.ACCESS_CAR_MODEL_DATA}>
           <TouchableOpacity
             style={styles.footerTab}
-            onPress={() => router.push('/cars')}
+            onPress={() => router.push('/dashboard')}
           >
-            <Ionicons name="car-sport" size={24} color={themeColors.text} />
-            <Text style={[styles.footerTabText, { color: themeColors.text }]}>Cars</Text>
+            <Image source={iconCar} style={[styles.logoImage, { tintColor: themeColors.text }]} />
+            <Text style={[styles.footerTabText, { color: themeColors.text }]}>Carros</Text>
           </TouchableOpacity>
         </AuthView>
       </View>
@@ -110,9 +111,7 @@ const styles = StyleSheet.create({
   mainContent: { flex: 1, paddingVertical: 10 },
   headerContainer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 15, paddingVertical: 10, zIndex: 10, borderBottomWidth: 1, borderBottomColor: '#E8E8E8' },
   titleSection: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  
-  logoImage: { width: 36, height: 36, resizeMode: 'contain' }, 
-  
+  logoImage: { width: 30, height: 30, resizeMode: 'contain' }, 
   headerTitle: { fontSize: 20, fontWeight: '700' },
   headerIconsContainer: { flexDirection: 'row', gap: 10, alignItems: 'center' },
   iconButton: { width: 36, height: 36, borderRadius: 18, justifyContent: 'center', alignItems: 'center' },
@@ -121,5 +120,5 @@ const styles = StyleSheet.create({
   menuItemText: { fontSize: 16, fontWeight: '600' },
   footerContainer: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingBottom: 15, borderTopWidth: 1, borderTopColor: '#E8E8E8' },
   footerTab: { alignItems: 'center', gap: 2, paddingVertical: 8 },
-  footerTabText: { fontSize: 14, fontWeight: '700' },
+  footerTabText: { fontSize: 14, fontWeight: '500' },
 });
