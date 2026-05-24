@@ -76,7 +76,7 @@ function LayoutContent() {
         <AuthView permission={PERMISSIONS.ACCESS_DEALER}>
           <TouchableOpacity
             style={styles.footerTab}
-            onPress={() => router.push('/dealers')}
+            onPress={() => router.push('/')}
           >
             <Image source={iconDealer} style={[styles.logoImage, { tintColor: themeColors.text }]} />
             <Text style={[styles.footerTabText, { color: themeColors.text }]}>Mecânicas</Text>

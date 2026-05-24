@@ -1,6 +1,6 @@
 import api from './api';
 
-const DEALER_BASE = '/dealer';
+const DEALER_BASE = '/index';
 
 const DealerService = {
   async list(params = {}) {
