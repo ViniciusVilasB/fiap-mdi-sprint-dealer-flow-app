@@ -1,7 +1,10 @@
 import React, { createContext, useState, useEffect, useContext, useMemo } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 import AuthService from '../services/AuthService';
 import { extractPermissionsFromToken } from '../auth/permissions';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Não ideal para Criptografia de dados sensíveis em repouso
+import { Platform } from 'react-native';
+import { logger } from '../utils/logger';
 
 const AuthContext = createContext({});
 
@@ -22,24 +25,36 @@ export function AuthProvider({ children }) {
 
         setPermissions(extractPermissionsFromToken(token));
 
-        // Restaura cache local imediatamente para evitar flash de tela de login.
-        const cached = await AsyncStorage.getItem(SESSION_KEY);
+        let cached;
+        if (Platform.OS === 'web') {
+          cached = await AsyncStorage.getItem(SESSION_KEY);
+        } else {
+          cached = await SecureStore.getItemAsync(SESSION_KEY);
+        }
+
         if (cached) {
           setUser(JSON.parse(cached));
         }
 
-        // Valida a sessao no backend; em caso de 401 o interceptor ja limpa o storage.
+        // Valida a sessao no backend
         try {
           const freshUser = await AuthService.me();
           const userData = freshUser?.user ?? freshUser;
           setUser(userData);
-          await AsyncStorage.setItem(SESSION_KEY, JSON.stringify(userData));
+          
+          // --- MUDANÇA AQUI: Lógica Híbrida para escrita ---
+          if (Platform.OS === 'web') {
+            await AsyncStorage.setItem(SESSION_KEY, JSON.stringify(userData));
+          } else {
+            await SecureStore.setItemAsync(SESSION_KEY, JSON.stringify(userData));
+          }
+          
         } catch (error) {
           if (error?.status === 401) {
             setUser(null);
             setPermissions([]);
           } else {
-            console.warn('Falha ao validar sessão, mantendo cache local:', error?.message);
+            logger.warn('Falha ao validar sessão no servidor')
           }
         }
       } catch (error) {
@@ -56,7 +71,11 @@ export function AuthProvider({ children }) {
     const userData = data?.user ?? data;
     const token = await AuthService.getStoredToken();
     setPermissions(extractPermissionsFromToken(token));
-    await AsyncStorage.setItem(SESSION_KEY, JSON.stringify(userData));
+    if (Platform.OS === 'web') {
+      await AsyncStorage.setItem(SESSION_KEY, JSON.stringify(userData));
+    } else {
+      await SecureStore.setItemAsync(SESSION_KEY, JSON.stringify(userData));
+    }
     setUser(userData);
     return userData;
   };
@@ -65,7 +84,12 @@ export function AuthProvider({ children }) {
     try {
       await AuthService.logout();
     } finally {
-      await AsyncStorage.removeItem(SESSION_KEY);
+      // Substitua a exclusão ao deslogar por isso:
+      if (Platform.OS === 'web') {
+        await AsyncStorage.removeItem(SESSION_KEY);
+      } else {
+        await SecureStore.deleteItemAsync(SESSION_KEY);
+      }
       setUser(null);
       setPermissions([]);
     }

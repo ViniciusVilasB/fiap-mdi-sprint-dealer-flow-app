@@ -1,5 +1,8 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Não ideal para Criptografia de dados sensíveis em repouso
+import { Platform } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import { logger } from '../utils/logger';
 
 export const API_BASE_URL =
   'https://dealerflowapp-ctefd3bvb4hthedn.mexicocentral-01.azurewebsites.net';
@@ -19,43 +22,58 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     try {
-      const token = await AsyncStorage.getItem(AUTH_TOKEN_KEY);
+      // Lógica Híbrida de Leitura
+      let token;
+      if (Platform.OS === 'web') {
+        token = await AsyncStorage.getItem(AUTH_TOKEN_KEY); 
+      } else {
+        token = await SecureStore.getItemAsync(AUTH_TOKEN_KEY);
+      }
+
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
     } catch (error) {
-      console.warn('Falha ao ler token de autenticação:', error);
+      logger.info('Falha ao acessar token de autenticação.');
     }
     return config;
   },
   (error) => Promise.reject(error),
 );
 
+// Helper para limpar sessões de forma híbrida
+const clearAuthStorage = async () => {
+  try {
+    if (Platform.OS === 'web') {
+      await AsyncStorage.multiRemove([AUTH_TOKEN_KEY, 'user_session']);
+    } else {
+      await Promise.all([
+        SecureStore.deleteItemAsync(AUTH_TOKEN_KEY),
+        SecureStore.deleteItemAsync('user_session')
+      ]);
+    }
+  } catch (e) {
+    logger.warn('Falha ao limpar sessão');
+  }
+};
+
 // Normaliza erros e trata 401 limpando a sessao local.
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
-      try {
-        await AsyncStorage.multiRemove([AUTH_TOKEN_KEY, 'user_session']);
-      } catch (storageError) {
-        console.warn('Falha ao limpar sessão após 401:', storageError);
-      }
+    const status = error.response?.status || 500;
+    const msg = error.response?.data?.message || error.response?.data?.error || "";
+
+    status === 401 ? logger.warn('Acesso negado (401)') : logger.error(`Erro ${status}:`, error.message);
+
+    const isAuthError = status === 401 || (status === 500 && (msg.includes("credentials") || msg.includes("auth")));
+
+    if (isAuthError) {
+      if (status === 401) await clearAuthStorage();
+      return Promise.reject({ status: 401, message: "E-mail ou senha incorretos." });
     }
 
-    const normalized = {
-      status: error.response?.status ?? 0,
-      message:
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        error.message ||
-        'Erro inesperado na requisição',
-      data: error.response?.data ?? null,
-      original: error,
-    };
-
-    return Promise.reject(normalized);
-  },
+    return Promise.reject({ status, message: "Ocorreu um erro inesperado." });
+  }
 );
-
 export default api;

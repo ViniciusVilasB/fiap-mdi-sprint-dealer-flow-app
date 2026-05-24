@@ -16,7 +16,7 @@ export function extractPermissionsFromToken(token) {
     if (typeof claim === 'string') return [claim];
     return [];
   } catch (error) {
-    console.warn('Falha ao decodificar JWT:', error?.message);
+    logger.warn('Falha ao decodificar JWT');
     return [];
   }
 }

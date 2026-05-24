@@ -1,16 +1,27 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Não ideal para Criptografia em repouso
 import api, { AUTH_TOKEN_KEY } from './api';
+import { logger } from '../utils/logger';
 
 const AUTH_BASE = '/auth';
 
 async function persistToken(token) {
   if (token) {
-    await AsyncStorage.setItem(AUTH_TOKEN_KEY, token);
+    if (Platform.OS === 'web') {
+      await AsyncStorage.setItem(AUTH_TOKEN_KEY, token); 
+    } else {
+      await SecureStore.setItemAsync(AUTH_TOKEN_KEY, token);
+    }
   }
 }
 
 async function clearToken() {
-  await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
+  if (Platform.OS === 'web') {
+    await AsyncStorage.removeItem(AUTH_TOKEN_KEY); 
+  } else {
+    await SecureStore.deleteItemAsync(AUTH_TOKEN_KEY);
+  }
 }
 
 const AuthService = {
@@ -30,7 +41,7 @@ const AuthService = {
     try {
       await api.post(`${AUTH_BASE}/logout`);
     } catch (error) {
-      console.warn('Falha ao chamar logout no servidor:', error?.message);
+        logger.warn('Falha ao chamar logout no servidor.');
     } finally {
       await clearToken();
     }
@@ -48,7 +59,11 @@ const AuthService = {
   },
 
   async getStoredToken() {
-    return AsyncStorage.getItem(AUTH_TOKEN_KEY);
+    if (Platform.OS === 'web') {
+      return await AsyncStorage.getItem(AUTH_TOKEN_KEY); 
+    } else {
+      return await SecureStore.getItemAsync(AUTH_TOKEN_KEY);
+    }
   },
 
   clearToken,

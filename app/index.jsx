@@ -5,6 +5,7 @@ import { useAuth } from './contexts/AuthContext';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { AuthView } from './auth/AuthView';
 import { PERMISSIONS } from './auth/permissions';
+import { logger } from './utils/logger';
 
 export default function Home() {
   const router = useRouter();

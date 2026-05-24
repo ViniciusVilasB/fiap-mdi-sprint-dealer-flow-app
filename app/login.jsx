@@ -3,6 +3,7 @@ import { View, TextInput, TouchableOpacity, Text, StyleSheet, SafeAreaView, Acti
 import { useAuth } from './contexts/AuthContext';
 import { Image } from 'react-native';
 import logo from '../assets/main_icon.png'
+import { logger } from './utils/logger';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -15,16 +16,25 @@ export default function Login() {
   const handleLogin = async () => {
     setFeedback('');
 
-    if (!email || !password) {
-      //set feedback
-      return;
+    const normalizedEmail = email.trim();
+    const normalizedPassword = password.trim();
+
+    if (!normalizedEmail || !normalizedPassword) {
+    return setFeedback('Por favor, preencha todos os campos.');
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.com+$/;
+    if (!emailRegex.test(normalizedEmail)) {
+      return setFeedback('Por favor, insira um e-mail válido.');
     }
 
     setLoading(true);
     try {
-      await login({ email, password });
+      await login({ email: normalizedEmail, password: normalizedPassword });
     } catch (error) {
-      // setFeedback
+      const errorMessage = error?.message || "Falha na autenticação. Verifique suas credenciais e tente novamente.";
+      setFeedback(errorMessage);
+      logger.info(`Tentativa de login falhou com status ${error.status}`);
     } finally {
       setLoading(false);
     }
@@ -60,6 +70,7 @@ export default function Login() {
               onChangeText={setEmail}
               onFocus={() => setFocusedInput('email')}
               onBlur={() => setFocusedInput(null)}
+              maxLength={80}
             />
           </View>
 
@@ -74,6 +85,7 @@ export default function Login() {
               onChangeText={setPassword}
               onFocus={() => setFocusedInput('password')}
               onBlur={() => setFocusedInput(null)}
+              maxLength={60}
             />
           </View>
 
