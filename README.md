@@ -52,8 +52,8 @@ Nosso grupo escolheu o **Desafio 2**, focado em manutenção preditiva e anális
    npx expo start
    ```
 5. Utilize as credenciais *mockadas* abaixo para realizar o login e testar o app:
-   - **E-mail:** lena@gmail.com
-   - **Senha:** 12345
+   - **E-mail:** professor.sensacional@gmail.com
+   - **Senha:** SenhaSegura!
 
 ---
 
