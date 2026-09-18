@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { Slot, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { useAuth } from '../contexts/AuthContext';
@@ -8,6 +8,7 @@ import iconDealer from '../../assets/dealer_nav_icon.png';
 import iconCar from '../../assets/car_nav_icon.png'; 
 import { AuthView } from '../auth/AuthView'; 
 import { PERMISSIONS } from '../auth/permissions'; 
+import { borders, colors, radii, sizes, spacing, typography, shadows, getTheme } from '../styles/designTokens';
 
 function LayoutContent() {
   const router = useRouter();
@@ -24,13 +25,7 @@ function LayoutContent() {
     }
   };
 
-  const themeColors = {
-    background: isDarkMode ? '#1b1b1b' : '#F7F7F7', 
-    headerFooter: isDarkMode ? '#1E1E1E' : '#FFFFFF', 
-    text: isDarkMode ? '#8ec6f3' : '#134089',
-    iconBg: isDarkMode ? '#333333' : '#E8E8E8', 
-    menuBg: isDarkMode ? '#2C2C2C' : '#FFFFFF',
-  };
+  const themeColors = getTheme(isDarkMode);
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: themeColors.background }]}>
@@ -46,20 +41,20 @@ function LayoutContent() {
             style={[styles.iconButton, { backgroundColor: themeColors.iconBg }]} 
             onPress={() => setIsDarkMode(!isDarkMode)}
             activeOpacity={0.7}>
-            <Ionicons name={isDarkMode ? "sunny" : "moon"} size={20} color={themeColors.text} />
+            <Ionicons name={isDarkMode ? "sunny" : "moon"} size={sizes.icon} color={themeColors.text} />
           </TouchableOpacity>
           <View>
             <TouchableOpacity 
               style={[styles.iconButton, { backgroundColor: themeColors.iconBg }]} 
               onPress={() => setIsUserMenuVisible(!isUserMenuVisible)}
               activeOpacity={0.7}>
-              <Ionicons name="exit-outline" size={20} color={themeColors.text} />
+              <Ionicons name="exit-outline" size={sizes.icon} color={themeColors.text} />
             </TouchableOpacity>
             {isUserMenuVisible && (
               <View style={[styles.dropdownMenu, { backgroundColor: themeColors.menuBg }]}>
                 <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
-                  <Ionicons name="log-out-outline" size={18} color="#ff4444" />
-                  <Text style={[styles.menuItemText, { color: '#ff4444' }]}>Deslogar</Text>
+                  <Ionicons name="log-out-outline" size={sizes.icon} color={colors.errorStrong} />
+                  <Text style={[styles.menuItemText, { color: colors.errorStrong }]}>Deslogar</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -106,19 +101,19 @@ export default function AppLayout() {
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: { flex: 1, paddingTop: 10 },
-  mainContent: { flex: 1, paddingVertical: 10 },
-  headerContainer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 15, paddingVertical: 10, zIndex: 10, borderBottomWidth: 1, borderBottomColor: '#E8E8E8' },
-  titleSection: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  logoImage: { width: 30, height: 30, resizeMode: 'contain' }, 
-  headerTitle: { fontSize: 20, fontWeight: '700' },
-  headerIconsContainer: { flexDirection: 'row', gap: 10, alignItems: 'center' },
-  iconButton: { width: 36, height: 36, borderRadius: 18, justifyContent: 'center', alignItems: 'center' },
-  dropdownMenu: { position: 'absolute', top: 40, right: 0, borderRadius: 8, paddingVertical: 8, paddingHorizontal: 10, minWidth: 130, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 3, elevation: 5, borderStyle: 'solid', borderWidth: 1, borderColor: '#E8E8E8' },
-  menuItem: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 6 },
-  menuItemText: { fontSize: 16, fontWeight: '600' },
-  footerContainer: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingBottom: 15, borderTopWidth: 1, borderTopColor: '#E8E8E8' },
-  footerTab: { alignItems: 'center', gap: 2, paddingVertical: 8 },
-  footerTabText: { fontSize: 14, fontWeight: '500' },
-});
+const styles = {
+  safeArea: { flex: 1, paddingTop: spacing.xl },
+  mainContent: { flex: 1, paddingVertical: spacing.xl },
+  headerContainer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: spacing.xxxl, paddingVertical: spacing.xl, zIndex: 10, borderBottomWidth: borders.thin, borderBottomColor: colors.border },
+  titleSection: { flexDirection: 'row', alignItems: 'center', gap: spacing.xl },
+  logoImage: { width: sizes.logo, height: sizes.logo, resizeMode: 'contain' },
+  headerTitle: { fontSize: typography.xl, fontWeight: '700' },
+  headerIconsContainer: { flexDirection: 'row', gap: spacing.xl, alignItems: 'center' },
+  iconButton: { width: sizes.headerButton, height: sizes.headerButton, borderRadius: sizes.headerButton / 2, justifyContent: 'center', alignItems: 'center' },
+  dropdownMenu: { position: 'absolute', top: sizes.headerButton + spacing.xl, right: 0, borderRadius: radii.lg, paddingVertical: spacing.lg, paddingHorizontal: spacing.xl, minWidth: sizes.menu, ...shadows.menu, borderStyle: 'solid', borderWidth: borders.thin, borderColor: colors.border },
+  menuItem: { flexDirection: 'row', alignItems: 'center', gap: spacing.xl, paddingVertical: spacing.md },
+  menuItemText: { fontSize: typography.lg, fontWeight: '600' },
+  footerContainer: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingBottom: spacing.xxxl, borderTopWidth: borders.thin, borderTopColor: colors.border },
+  footerTab: { alignItems: 'center', gap: spacing.xs, paddingVertical: spacing.lg },
+  footerTabText: { fontSize: typography.body, fontWeight: '500' },
+};

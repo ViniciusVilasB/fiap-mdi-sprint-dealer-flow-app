@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native';
 import { createDashboardStyles } from '../common/dashboardStyles';
+import { colors } from '../../styles/designTokens';
 
 export default function AppointmentTypeSection({ 
   scheduledPercentage, 
@@ -25,11 +26,11 @@ export default function AppointmentTypeSection({
       </View>
       <View style={styles.legendContainer}>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { backgroundColor: '#00D05A' }]} />
+          <View style={[styles.legendDot, { backgroundColor: colors.success }]} />
           <Text style={styles.legendText}>Agendado</Text>
         </View>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { backgroundColor: '#FFB800' }]} />
+          <View style={[styles.legendDot, { backgroundColor: colors.warning }]} />
           <Text style={styles.legendText}>Sem Agendamento</Text>
         </View>
       </View>

@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { createDashboardStyles } from '../common/dashboardStyles';
+import { colors, spacing, typography } from '../../styles/designTokens';
 
 export default function TopServicesForDealer({ 
   services, 
@@ -20,11 +21,11 @@ export default function TopServicesForDealer({
   const getStatusColor = (status) => {
     switch (status) {
       case 'good':
-        return '#00D05A';
+        return colors.success;
       case 'bad':
-        return '#FF4444';
+        return colors.errorStrong;
       default:
-        return '#FFB800';
+        return colors.warning;
     }
   };
 
@@ -54,11 +55,11 @@ export default function TopServicesForDealer({
                 </Text>
               </View>
             </View>
-            <View style={[styles.serviceTextRow, { marginBottom: 8 }]}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <View style={[styles.serviceTextRow, { marginBottom: spacing.lg }]}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.lg }}>
                 <Ionicons 
                   name="time-outline" 
-                  size={16} 
+                  size={typography.md}
                   color={statusColor} 
                 />
                 <Text style={[styles.serviceValue, { color: statusColor, fontWeight: 'bold' }]}>

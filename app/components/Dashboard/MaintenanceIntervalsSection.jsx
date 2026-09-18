@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { formatNumber, getMonthsFromDays } from '../common/dashboardUtils';
 import { createDashboardStyles } from '../common/dashboardStyles';
+import { colors, sizes } from '../../styles/designTokens';
 
 export default function MaintenanceIntervalsSection({ 
   kmLastVisit, 
@@ -15,7 +16,7 @@ export default function MaintenanceIntervalsSection({
       <Text style={styles.sectionTitle}>INTERVALOS DE MANUTENÇÃO (MODA)</Text>
       <View style={styles.intervalsRow}>
         <View style={styles.intervalBox}>
-          <Ionicons name="speedometer-outline" size={24} color="#FF6B00" />
+          <Ionicons name="speedometer-outline" size={sizes.iconLarge} color={colors.warningStrong} />
           <View style={styles.intervalTextContainer}>
             <Text style={styles.intervalMainText}>
               {formatNumber(kmLastVisit)} km
@@ -24,7 +25,7 @@ export default function MaintenanceIntervalsSection({
           </View>
         </View>
         <View style={styles.intervalBox}>
-          <Ionicons name="calendar-outline" size={24} color="#00C48C" />
+          <Ionicons name="calendar-outline" size={sizes.iconLarge} color={colors.successText} />
           <View style={styles.intervalTextContainer}>
             <Text style={styles.intervalMainText}>
               ~{getMonthsFromDays(daysLastVisit)} meses

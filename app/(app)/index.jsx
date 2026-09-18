@@ -7,6 +7,7 @@ import { getThemeColors } from '../components/common/dashboardUtils';
 import { createDashboardStyles } from '../components/common/dashboardStyles';
 import DealerSelector from '../components/Dashboard/DealerSelector';
 import TopServicesForDealer from '../components/Dashboard/TopServicesForDealer';
+import { colors } from '../styles/designTokens';
 
 export default function Dealers() {
   const { user } = useAuth();
@@ -94,8 +95,8 @@ export default function Dealers() {
         )}
 
         {error && (
-          <View style={[styles.card, { backgroundColor: '#FFE5E5', borderColor: '#FF4444' }]}>
-            <Text style={{ color: '#FF4444', fontWeight: 'bold' }}>
+          <View style={[styles.card, { backgroundColor: colors.errorSurfaceSoft, borderColor: colors.errorStrong }]}>
+            <Text style={{ color: colors.errorStrong, fontWeight: 'bold' }}>
               ⚠️ {error}
             </Text>
           </View>

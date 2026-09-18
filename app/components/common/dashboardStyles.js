@@ -1,39 +1,34 @@
-import { StyleSheet } from 'react-native';
+import { borders, colors, radii, shadows, spacing, typography } from '../../styles/designTokens';
 
-/**
- * Criar Style-Sheet theme-aware
- * @param {Object} themeColors - Paleta de cores
- * @returns {Object} Objeto styleSheet
- */
 export const createDashboardStyles = (themeColors) =>
-  StyleSheet.create({
+  ({
 
     safeArea: { 
       flex: 1, 
       backgroundColor: themeColors.background 
     },
     scrollContent: { 
-      padding: 20 
+      padding: spacing.section 
     },
 
     filtersSection: { 
-      marginBottom: 25 
+      marginBottom: spacing.page 
     },
     pageSubtitle: { 
-      fontSize: 16, 
+      fontSize: typography.lg,
       fontWeight: '600', 
       color: themeColors.textMain, 
-      marginBottom: 15 
+      marginBottom: spacing.xxxl 
     },
 
     dropdownContainer: { 
-      marginBottom: 15 
+      marginBottom: spacing.xxxl 
     },
     dropdownLabel: { 
-      fontSize: 12, 
+      fontSize: typography.xs,
       fontWeight: '700', 
       color: themeColors.textSub, 
-      marginBottom: 6, 
+      marginBottom: spacing.md,
       textTransform: 'uppercase' 
     },
     dropdownSelector: { 
@@ -41,233 +36,229 @@ export const createDashboardStyles = (themeColors) =>
       justifyContent: 'space-between', 
       alignItems: 'center', 
       backgroundColor: themeColors.inputBg, 
-      borderWidth: 1, 
+      borderWidth: borders.thin,
       borderColor: themeColors.border, 
-      padding: 14, 
-      borderRadius: 10 
+      padding: spacing.xxl,
+      borderRadius: radii.xl 
     },
     dropdownSelectorOpen: { 
-      borderBottomLeftRadius: 0, 
-      borderBottomRightRadius: 0, 
-      borderColor: '#000' 
+      borderBottomLeftRadius: radii.none,
+      borderBottomRightRadius: radii.none,
+      borderColor: colors.shadow 
     },
     dropdownText: { 
-      fontSize: 16, 
+      fontSize: typography.lg,
       color: themeColors.textMain 
     },
     dropdownPlaceholder: { 
-      color: '#999' 
+      color: colors.textSubtle 
     },
     dropdownOptions: { 
       backgroundColor: themeColors.surface, 
-      borderWidth: 1, 
+      borderWidth: borders.thin,
       borderColor: themeColors.border, 
-      borderTopWidth: 0, 
-      borderBottomLeftRadius: 10, 
-      borderBottomRightRadius: 10, 
+      borderTopWidth: borders.none,
+      borderBottomLeftRadius: radii.xl,
+      borderBottomRightRadius: radii.xl,
       overflow: 'hidden' 
     },
     dropdownOptionItem: { 
-      padding: 14, 
-      borderBottomWidth: 1, 
+      padding: spacing.xxl,
+      borderBottomWidth: borders.thin,
       borderBottomColor: themeColors.border 
     },
     dropdownOptionText: { 
-      fontSize: 16, 
+      fontSize: typography.lg,
       color: themeColors.textMain 
     },
     dropdownOptionTextActive: { 
       fontWeight: 'bold', 
-      color: '#000' 
+      color: colors.shadow
     },
 
     searchButton: {
-      padding: 15,
-      marginTop: 20,
+      padding: spacing.xxxl,
+      marginTop: spacing.section,
     },
 
     loadingContainer: { 
       alignItems: 'center', 
       justifyContent: 'center', 
-      paddingVertical: 40 
+      paddingVertical: spacing.card 
     },
     emptyStateContainer: { 
       alignItems: 'center', 
       justifyContent: 'center', 
-      paddingVertical: 40, 
-      paddingHorizontal: 20 
+      paddingVertical: spacing.card,
+      paddingHorizontal: spacing.section
     },
     emptyStateText: { 
-      marginTop: 15, 
-      color: themeColors.textSub, 
-      fontSize: 14, 
+      marginTop: spacing.xxxl,
+      color: themeColors.textSub,
+      fontSize: typography.body,
       textAlign: 'center', 
-      lineHeight: 20 
+      lineHeight: typography.xl
     },
 
     card: { 
       backgroundColor: themeColors.surface, 
-      borderRadius: 12, 
-      borderWidth: 1, 
+      borderRadius: radii.card,
+      borderWidth: borders.thin,
       borderColor: themeColors.border, 
-      padding: 20, 
-      shadowColor: '#000', 
-      shadowOffset: { width: 0, height: 2 }, 
-      shadowOpacity: 0.05, 
-      shadowRadius: 4, 
-      elevation: 2 
+      padding: spacing.section,
+      ...shadows.card,
     },
     cardHeader: { 
       flexDirection: 'row', 
       justifyContent: 'space-between', 
       alignItems: 'flex-start', 
-      marginBottom: 20 
+      marginBottom: spacing.section 
     },
     carName: { 
-      fontSize: 20, 
+      fontSize: typography.xl,
       fontWeight: 'bold', 
       color: themeColors.textMain, 
       textTransform: 'capitalize' 
     },
     carYear: { 
-      fontSize: 16, 
+      fontSize: typography.lg,
       color: themeColors.textSub, 
-      marginTop: 2 
+      marginTop: spacing.xs
     },
     badgeContainer: { 
-      backgroundColor: '#E8F5E9', 
-      paddingHorizontal: 10, 
-      paddingVertical: 4, 
-      borderRadius: 12 
+      backgroundColor: colors.successSurface,
+      paddingHorizontal: spacing.xl,
+      paddingVertical: spacing.sm,
+      borderRadius: radii.card
     },
     badgeText: { 
-      color: '#00C48C', 
-      fontSize: 12, 
+      color: colors.successText,
+      fontSize: typography.xs,
       fontWeight: 'bold' 
     },
 
     section: { 
-      marginBottom: 20 
+      marginBottom: spacing.section 
     },
     sectionTitle: { 
-      fontSize: 12, 
+      fontSize: typography.xs,
       fontWeight: '700', 
       color: themeColors.textSub, 
-      letterSpacing: 0.5, 
-      marginBottom: 12, 
+      letterSpacing: 0.5,
+      marginBottom: spacing.xxl,
       textTransform: 'uppercase' 
     },
 
     serviceItem: { 
-      marginBottom: 12 
+      marginBottom: spacing.xxl 
     },
     serviceTextRow: { 
       flexDirection: 'row', 
       justifyContent: 'space-between', 
-      marginBottom: 6 
+      marginBottom: spacing.md
     },
     serviceText: { 
-      fontSize: 14, 
+      fontSize: typography.body,
       color: themeColors.textMain, 
       fontWeight: '500', 
       textTransform: 'capitalize', 
       flex: 1 
     },
     serviceValue: { 
-      fontSize: 14, 
+      fontSize: typography.body,
       color: themeColors.textSub, 
       fontWeight: '500' 
     },
     serviceBar: { 
-      height: 4, 
+      height: spacing.sm,
       backgroundColor: themeColors.textMain, 
-      borderRadius: 2 
+      borderRadius: radii.sm
     },
 
     progressBarContainer: { 
       flexDirection: 'row', 
-      height: 28, 
-      borderRadius: 14, 
+      height: spacing.card,
+      borderRadius: radii.pill,
       overflow: 'hidden', 
-      marginBottom: 10 
+      marginBottom: spacing.xl 
     },
     progressGreen: { 
-      backgroundColor: '#00D05A', 
+      backgroundColor: colors.success,
       justifyContent: 'center', 
       alignItems: 'center' 
     },
     progressYellow: { 
-      backgroundColor: '#FFB800', 
+      backgroundColor: colors.warning,
       justifyContent: 'center', 
       alignItems: 'center' 
     },
     progressText: { 
-      color: '#FFF', 
+      color: colors.textOnPrimary,
       fontWeight: 'bold', 
-      fontSize: 12 
+      fontSize: typography.xs
     },
     legendContainer: { 
       flexDirection: 'row', 
-      gap: 15 
+      gap: spacing.xxxl 
     },
     legendItem: { 
       flexDirection: 'row', 
       alignItems: 'center' 
     },
     legendDot: { 
-      width: 8, 
-      height: 8, 
-      borderRadius: 4, 
-      marginRight: 6 
+      width: spacing.lg,
+      height: spacing.lg,
+      borderRadius: radii.md,
+      marginRight: spacing.md
     },
     legendText: { 
-      fontSize: 12, 
+      fontSize: typography.xs,
       color: themeColors.textSub 
     },
 
     intervalsRow: { 
       flexDirection: 'row', 
       justifyContent: 'space-between', 
-      gap: 10 
+      gap: spacing.xl 
     },
     intervalBox: { 
       flex: 1, 
       flexDirection: 'row', 
       backgroundColor: themeColors.inputBg, 
-      borderRadius: 10, 
-      padding: 12, 
+      borderRadius: radii.xl,
+      padding: spacing.xxl,
       alignItems: 'center' 
     },
     intervalTextContainer: { 
-      marginLeft: 10 
+      marginLeft: spacing.xl 
     },
     intervalMainText: { 
-      fontSize: 14, 
+      fontSize: typography.body,
       fontWeight: 'bold', 
       color: themeColors.textMain 
     },
     intervalSubText: { 
-      fontSize: 12, 
+      fontSize: typography.xs,
       color: themeColors.textSub, 
-      marginTop: 2 
+      marginTop: spacing.xs
     },
 
     cardFooter: { 
       flexDirection: 'row', 
       justifyContent: 'space-between', 
       alignItems: 'center', 
-      borderTopWidth: 1, 
+      borderTopWidth: borders.thin,
       borderTopColor: themeColors.border, 
-      paddingTop: 15, 
-      marginTop: 5 
+      paddingTop: spacing.xxxl,
+      marginTop: spacing.sm
     },
     footerLabel: { 
-      fontSize: 14, 
+      fontSize: typography.body,
       color: themeColors.textSub, 
       fontWeight: '500' 
     },
     footerValue: { 
-      fontSize: 16, 
+      fontSize: typography.lg,
       fontWeight: 'bold', 
       color: themeColors.textMain 
     },

@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { createDashboardStyles } from '../common/dashboardStyles';
 import Button from '../common/Button';
+import { sizes } from '../../styles/designTokens';
 
 export default function VehicleFilters({
   selectedModel,
@@ -52,7 +53,7 @@ export default function VehicleFilters({
 
         {isModelDropdownOpen && (
           <View style={styles.dropdownOptions}>
-            <ScrollView nestedScrollEnabled style={{ maxHeight: 200 }}>
+            <ScrollView nestedScrollEnabled style={{ maxHeight: sizes.dropdownModel }}>
               {availableModels.map((model) => (
                 <TouchableOpacity
                   key={model.id}
@@ -116,7 +117,7 @@ export default function VehicleFilters({
 
         {isYearDropdownOpen && selectedModel && (
           <View style={styles.dropdownOptions}>
-            <ScrollView nestedScrollEnabled style={{ maxHeight: 200 }}>
+            <ScrollView nestedScrollEnabled style={{ maxHeight: sizes.dropdownModel }}>
               {selectedModel.availableYears.map((year) => (
                 <TouchableOpacity
                   key={year}

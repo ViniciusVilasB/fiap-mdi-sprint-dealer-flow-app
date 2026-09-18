@@ -2,6 +2,7 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import { View, ActivityIndicator } from 'react-native';
 import { useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { colors } from './styles/designTokens';
 
 function InitialLayout() {
   const { user, isLoading } = useAuth();
@@ -22,8 +23,8 @@ function InitialLayout() {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, backgroundColor: '#f5f5f5', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#A6A6A6" />
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color={colors.disabledLight} />
       </View>
     );
   }
@@ -38,3 +39,12 @@ export default function RootLayout() {
     </AuthProvider>
   );
 }
+
+const styles = {
+  loading: {
+    flex: 1,
+    backgroundColor: colors.backgroundMuted,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+};

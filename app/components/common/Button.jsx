@@ -1,4 +1,5 @@
-import { ActivityIndicator, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
+import { colors, radii, typography } from '../../styles/designTokens';
 
 export default function Button({
   children,
@@ -16,7 +17,7 @@ export default function Button({
       activeOpacity={0.8}
     >
       {loading ? (
-        <ActivityIndicator color="#fff" />
+        <ActivityIndicator color={colors.textOnPrimary} />
       ) : (
         <Text style={[styles.text, textStyle]}>{children}</Text>
       )}
@@ -24,19 +25,19 @@ export default function Button({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = {
   button: {
-    backgroundColor: '#2563eb',
-    borderRadius: 10,
+    backgroundColor: colors.primary,
+    borderRadius: radii.xl,
     alignItems: 'center',
     justifyContent: 'center',
   },
   disabled: {
-    backgroundColor: '#888',
+    backgroundColor: colors.disabled,
   },
   text: {
-    color: '#ffffff',
+    color: colors.textOnPrimary,
     fontWeight: '700',
-    fontSize: 15,
+    fontSize: typography.md,
   },
-});
+};

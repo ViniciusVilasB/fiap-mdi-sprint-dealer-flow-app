@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, TextInput, Text, SafeAreaView } from 'react-native';
 import { useAuth } from './contexts/AuthContext';
 import { Image } from 'react-native';
 import logo from '../assets/main_icon.png'
 import { logger } from './utils/logger';
 import Button from './components/common/Button';
+import { borders, colors, radii, shadows, spacing, typography, sizes } from './styles/designTokens';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -64,7 +65,7 @@ export default function Login() {
             <TextInput
               style={[styles.input, focusedInput === 'email' && styles.inputFocused]}
               placeholder="seu@email.com"
-              placeholderTextColor="#999"
+              placeholderTextColor={colors.textSubtle}
               autoCapitalize="none"
               keyboardType="email-address"
               editable={!loading}
@@ -80,7 +81,7 @@ export default function Login() {
             <TextInput
               style={[styles.input, focusedInput === 'password' && styles.inputFocused]}
               placeholder="Digite sua senha"
-              placeholderTextColor="#999"
+              placeholderTextColor={colors.textSubtle}
               secureTextEntry
               editable={!loading}
               onChangeText={setPassword}
@@ -104,84 +105,80 @@ export default function Login() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = {
   safeContainer: { 
     flex: 1, 
-    backgroundColor: '#f8f9fa' 
+    backgroundColor: colors.backgroundMuted
   },
   container: { 
     flex: 1, 
     alignItems: 'center', 
     justifyContent: 'center', 
-    backgroundColor: '#f8f9fa',
-    paddingHorizontal: 20
+    backgroundColor: colors.backgroundMuted,
+    paddingHorizontal: spacing.section
   },
 
   card: { 
     width: '100%',
     maxWidth: 380,
-    padding: 32, 
-    backgroundColor: '#ffffff', 
-    borderRadius: 16, 
+    padding: spacing.card,
+    backgroundColor: colors.surface,
+    borderRadius: radii.panel,
     alignItems: 'center', 
     justifyContent: 'center', 
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 4 }, 
-    shadowOpacity: 0.08, 
-    shadowRadius: 12, 
-    elevation: 3
+    ...shadows.loginCard
   },
 
   cardLogoContainer: { 
     alignItems: 'center', 
-    marginBottom: 32 
+    marginBottom: spacing.card
   },
   logo: { 
-    width: 100, 
-    height: 100 
+    width: sizes.logoLarge,
+    height: sizes.logoLarge
   },
 
   title: {
-    fontSize: 28,
+    fontSize: typography.display,
     fontWeight: '700',
-    color: '#1a1a1a',
-    marginBottom: 8,
+    color: colors.textStrong,
+    marginBottom: spacing.lg,
     textAlign: 'center'
   },
 
   subtitle: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 28,
+    fontSize: typography.body,
+    color: colors.textMuted,
+    marginBottom: spacing.card,
     textAlign: 'center',
     fontWeight: '400'
   },
 
   feedbackContainer: {
     width: '100%',
-    backgroundColor: '#ffe6e6',
-    borderLeftWidth: 4,
-    borderLeftColor: '#ff4444',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 20
+    backgroundColor: colors.errorSurface,
+    borderLeftWidth: spacing.sm,
+    borderLeftColor: colors.errorStrong,
+    borderRadius: radii.lg,
+    padding: spacing.xxl,
+    marginBottom: spacing.section
   },
 
   errorText: { 
-    color: '#d32f2f', 
+    color: colors.error,
     textAlign: 'center', 
-    fontSize: 13,
+    fontSize: typography.sm,
     fontWeight: '500'
   },
 
   formGroup: { 
     width: '100%', 
-    marginBottom: 18 
+    marginBottom: spacing.page
   },
   label: { 
-    fontSize: 13, 
-    color: '#1a1a1a', 
-    marginBottom: 8, 
+    fontSize: typography.sm,
+    color: colors.textStrong,
+    marginBottom: spacing.lg,
     alignSelf: 'flex-start', 
     fontWeight: '600',
     textTransform: 'uppercase',
@@ -190,39 +187,30 @@ const styles = StyleSheet.create({
 
   input: { 
     width: '100%', 
-    height: 48, 
-    backgroundColor: '#f5f5f5', 
-    borderRadius: 10, 
-    paddingHorizontal: 16, 
-    color: '#1a1a1a', 
-    fontSize: 15,
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
+    height: sizes.input,
+    backgroundColor: colors.backgroundMuted,
+    borderRadius: radii.xl,
+    paddingHorizontal: spacing.page,
+    color: colors.textStrong,
+    fontSize: typography.md,
+    borderWidth: borders.thin,
+    borderColor: colors.borderStrong,
     fontWeight: '400'
   },
 
   inputFocused: {
-    backgroundColor: '#ffffff',
-    borderColor: '#2563eb',
-    shadowColor: '#2563eb',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2
+    backgroundColor: colors.surface,
+    borderColor: colors.primary,
+    ...shadows.focus
   },
 
   buttonMain: { 
     width: '100%', 
-    height: 48, 
-    backgroundColor: '#2563eb', 
-    borderRadius: 10, 
+    height: sizes.input,
+    borderRadius: radii.xl,
     justifyContent: 'center', 
     alignItems: 'center', 
-    marginTop: 24,
-    shadowColor: '#2563eb',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 4
+    marginTop: spacing.page,
+    ...shadows.button
   },
-});
+};

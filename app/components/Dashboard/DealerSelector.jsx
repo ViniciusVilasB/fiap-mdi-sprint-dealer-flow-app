@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { createDashboardStyles } from '../common/dashboardStyles';
+import { sizes } from '../../styles/designTokens';
 
 export default function DealerSelector({
   selectedDealer,
@@ -45,7 +46,7 @@ export default function DealerSelector({
 
       {isOpen && !isLoading && (
         <View style={styles.dropdownOptions}>
-          <ScrollView nestedScrollEnabled style={{ maxHeight: 250 }}>
+          <ScrollView nestedScrollEnabled style={{ maxHeight: sizes.dropdownDealer }}>
             {dealers?.map((dealer) => (
               <TouchableOpacity
                 key={dealer}

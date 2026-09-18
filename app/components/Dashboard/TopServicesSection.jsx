@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native';
 import { formatNumber } from '../common/dashboardUtils';
 import { createDashboardStyles } from '../common/dashboardStyles';
+import { spacing } from '../../styles/designTokens';
 
 export default function TopServicesSection({ services, themeColors }) {
   const styles = createDashboardStyles(themeColors);
@@ -19,7 +20,7 @@ export default function TopServicesSection({ services, themeColors }) {
             </Text>
             <Text style={styles.serviceValue}>{service.count}</Text>
           </View>
-          <View style={[styles.serviceBar, { width: `${100 - (index * 20)}%` }]} />
+          <View style={[styles.serviceBar, { width: `${100 - (index * spacing.section)}%` }]} />
         </View>
       ))}
     </View>

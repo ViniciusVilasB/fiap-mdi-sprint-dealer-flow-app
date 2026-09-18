@@ -1,8 +1,9 @@
-import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
 import { Redirect, useRouter } from 'expo-router';
 import { useAuth } from '../contexts/AuthContext';
 import { useCan, useCanAny, useCanAll } from './useCan';
 import Button from '../components/common/Button';
+import { colors, radii, spacing, typography } from '../styles/designTokens';
 
 /**
  * Guarda uma rota inteira (ou um grupo dentro de um _layout).
@@ -37,7 +38,7 @@ export function RouteGuard({
   if (isLoading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color="#A6A6A6" />
+        <ActivityIndicator size="large" color={colors.disabledLight} />
       </View>
     );
   }
@@ -74,32 +75,31 @@ export function RouteGuard({
   return children;
 }
 
-const styles = StyleSheet.create({
+const styles = {
   center: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.backgroundMuted,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 24,
+    padding: spacing.page,
   },
   title: {
-    fontSize: 22,
+    fontSize: typography.title,
     fontWeight: '700',
-    color: '#1a1a1a',
-    marginBottom: 8,
+    color: colors.textStrong,
+    marginBottom: spacing.lg,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: typography.body,
+    color: colors.textMuted,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: spacing.page,
   },
   button: {
-    backgroundColor: '#2563eb',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 10,
+    paddingVertical: spacing.xxl,
+    paddingHorizontal: spacing.page,
+    borderRadius: radii.xl,
   },
-});
+};
 
 export default RouteGuard;
