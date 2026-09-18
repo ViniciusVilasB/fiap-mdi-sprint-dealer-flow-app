@@ -82,19 +82,8 @@ export const createDashboardStyles = (themeColors) =>
     },
 
     searchButton: {
-      backgroundColor: '#2563eb',
       padding: 15,
-      borderRadius: 8,
-      alignItems: 'center',
       marginTop: 20,
-    },
-    searchButtonDisabled: {
-      backgroundColor: '#888',
-    },
-    searchButtonText: {
-      color: '#ffffff',
-      fontWeight: 'bold',
-      fontSize: 16,
     },
 
     loadingContainer: { 

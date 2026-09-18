@@ -1,7 +1,8 @@
-import { View, ActivityIndicator, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
 import { Redirect, useRouter } from 'expo-router';
 import { useAuth } from '../contexts/AuthContext';
 import { useCan, useCanAny, useCanAll } from './useCan';
+import Button from '../components/common/Button';
 
 /**
  * Guarda uma rota inteira (ou um grupo dentro de um _layout).
@@ -63,9 +64,9 @@ export function RouteGuard({
         <Text style={styles.subtitle}>
           Você não tem permissão para visualizar esta página.
         </Text>
-        <TouchableOpacity style={styles.button} onPress={() => router.replace('/')}>
-          <Text style={styles.buttonText}>Voltar ao início</Text>
-        </TouchableOpacity>
+        <Button style={styles.button} onPress={() => router.replace('/')}>
+          Voltar ao início
+        </Button>
       </View>
     );
   }
@@ -98,12 +99,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 14,
-    letterSpacing: 0.5,
   },
 });
 

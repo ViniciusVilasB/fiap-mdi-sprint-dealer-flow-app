@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { createDashboardStyles } from '../common/dashboardStyles';
+import Button from '../common/Button';
 
 export default function VehicleFilters({
   selectedModel,
@@ -140,16 +141,13 @@ export default function VehicleFilters({
         )}
       </View>
 
-      <TouchableOpacity
-        style={[
-          styles.searchButton,
-          (!selectedModel || !selectedYear) && styles.searchButtonDisabled,
-        ]}
+      <Button
+        style={styles.searchButton}
         onPress={onSearch}
         disabled={!selectedModel || !selectedYear}
       >
-        <Text style={styles.searchButtonText}>Buscar Dados</Text>
-      </TouchableOpacity>
+        Buscar Dados
+      </Button>
     </View>
   );
 }

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
+import { View, TextInput, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { useAuth } from './contexts/AuthContext';
 import { Image } from 'react-native';
 import logo from '../assets/main_icon.png'
 import { logger } from './utils/logger';
+import Button from './components/common/Button';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -89,17 +90,14 @@ export default function Login() {
             />
           </View>
 
-          <TouchableOpacity 
-            style={[styles.buttonMain, loading && styles.buttonMainDisabled]} 
+          <Button
+            style={styles.buttonMain}
             onPress={handleLogin}
             disabled={loading}
+            loading={loading}
           >
-            {loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.buttonText}>ENTRAR</Text>
-            )}
-          </TouchableOpacity>
+            ENTRAR
+          </Button>
         </View>
       </View>
     </SafeAreaView>
@@ -226,18 +224,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 8,
     elevation: 4
-  },
-
-  buttonMainDisabled: {
-    backgroundColor: '#9ca3af',
-    shadowOpacity: 0.1
-  },
-
-  buttonText: { 
-    color: '#fff', 
-    fontWeight: '700', 
-    fontSize: 15,
-    letterSpacing: 0.5,
-    textTransform: 'uppercase'
   },
 });

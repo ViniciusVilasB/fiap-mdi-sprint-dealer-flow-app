@@ -5,7 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import { logger } from '../utils/logger';
 
 export const API_BASE_URL =
-  'https://dealerflowapp-ctefd3bvb4hthedn.mexicocentral-01.azurewebsites.net';
+  'https://dealerflowapi-hrb8hjabfgeeehca.mexicocentral-01.azurewebsites.net';
 
 export const AUTH_TOKEN_KEY = 'auth_token';
 
