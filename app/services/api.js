@@ -62,18 +62,41 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const status = error.response?.status || 500;
-    const msg = error.response?.data?.message || error.response?.data?.error || "";
+    const serverMessage = error.response?.data?.message || error.response?.data?.error || "";
+    const url = error.config?.url || '';
+    const isNetworkError = !error.response;
+    const isSessionValidation = url.startsWith('/auth/me');
 
-    status === 401 ? logger.warn('Acesso negado (401)') : logger.error(`Erro ${status}:`, error.message);
-
-    const isAuthError = status === 401 || (status === 500 && (msg.includes("credentials") || msg.includes("auth")));
-
-    if (isAuthError) {
-      if (status === 401) await clearAuthStorage();
-      return Promise.reject({ status: 401, message: "E-mail ou senha incorretos." });
+    // A validacao de sessao responde 500 no backend (defeito conhecido). Como o
+    // app segue funcionando com o cache, nao deve poluir o console com erro fatal.
+    if (isSessionValidation) {
+      logger.warn(`Falha ao validar sessao no servidor (${status})`);
+    } else if (status === 401) {
+      logger.warn('Acesso negado (401)');
+    } else {
+      logger.error(`Erro ${status}:`, error.message);
     }
 
-    return Promise.reject({ status, message: "Ocorreu um erro inesperado." });
+    // Somente um 401 real encerra a sessao. Um 5xx que por acaso cite "auth" no
+    // texto nao pode derrubar um token valido.
+    if (status === 401) {
+      await clearAuthStorage();
+      return Promise.reject({
+        status,
+        isNetworkError,
+        message: "E-mail ou senha incorretos.",
+        serverMessage,
+        url,
+      });
+    }
+
+    return Promise.reject({
+      status,
+      isNetworkError,
+      message: serverMessage || "Ocorreu um erro inesperado.",
+      serverMessage,
+      url,
+    });
   }
 );
 export default api;

@@ -87,6 +87,16 @@ function LayoutContent() {
             <Text style={[styles.footerTabText, { color: themeColors.text }]}>Carros</Text>
           </TouchableOpacity>
         </AuthView>
+
+        <AuthView permission={PERMISSIONS.VIEW_ANALYTICS}>
+          <TouchableOpacity
+            style={styles.footerTab}
+            onPress={() => router.push('/consult')}
+          >
+            <Ionicons name="pulse-outline" size={sizes.logo} color={themeColors.text} />
+            <Text style={[styles.footerTabText, { color: themeColors.text }]}>Previsão</Text>
+          </TouchableOpacity>
+        </AuthView>
       </View>
 
     </SafeAreaView>

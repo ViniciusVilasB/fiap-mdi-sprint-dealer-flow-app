@@ -17,6 +17,9 @@ Nosso grupo escolheu o **Desafio 2**, focado em manutenção preditiva e anális
 - **Autenticação:** Sistema de login e gerenciamento de usuários.
 - **Página de Mecânicas:** Apresenta um dashboard com os principais serviços realizados e o tempo médio de conclusão, com opções de filtros por mecânica.
 - **Página de Carros:** Permite consultar todos os modelos de veículos da base de dados, exibindo seus principais serviços, intervalos de manutenção, entre outras informações relevantes.
+- **Página de Previsão:** Permite consultar a probabilidade de um veículo precisar de manutenção nos próximos 60 dias. O `propensity_score` retornado pela API **é a porcentagem** (base atual: 0,59% a 54,78%, mediana 4,6%), exibida com 2 casas decimais e classificada em risco Baixo (<15%), Médio (15%–30%) ou Alto (>30%). A busca aceita três chaves, cada uma em uma base diferente: **ID do registro** (PK da tabela de dados), **ID de manutenção** (PK da tabela de manutenção) e **VIN Hash** (hash que identifica o veículo).
+
+> **Pendência com o backend:** `GET /auth/me` responde `500` para tokens válidos. O app trata isso e segue funcionando com a sessão em cache.
 
 ---
 

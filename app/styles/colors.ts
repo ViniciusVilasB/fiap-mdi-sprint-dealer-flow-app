@@ -28,6 +28,7 @@ export const colors = {
   successSurface: '#E8F5E9',
   warning: '#FFB800',
   warningStrong: '#FF6B00',
+  warningSurface: '#FFF4D6',
   placeholder: '#D0D0D0',
   iconBackground: '#E8E8E8',
   darkBackground: '#121212',
