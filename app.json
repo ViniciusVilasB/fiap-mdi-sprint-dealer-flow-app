@@ -3,31 +3,27 @@
     "name": "app-dealer-flow",
     "slug": "app-dealer-flow",
     "version": "1.0.0",
+    "scheme": "appdealerflow",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/main_icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dealerflow.appdealerflow"
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      "package": "com.dealerflow.appdealerflow",
+      "versionCode": 1
     },
     "plugins": [
       "expo-router",
       "expo-secure-store"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e007ae1c-345a-45d5-a219-30b2277cd9b6"
+      }
+    }
   }
 }

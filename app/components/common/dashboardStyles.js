@@ -1,4 +1,4 @@
-import { borders, colors, radii, shadows, spacing, typography } from '../../styles/designTokens';
+import { borders, colors, radii, shadows, sizes, spacing, typography } from '../../styles/designTokens';
 
 export const createDashboardStyles = (themeColors) =>
   ({
@@ -19,6 +19,12 @@ export const createDashboardStyles = (themeColors) =>
       fontWeight: '600', 
       color: themeColors.textMain, 
       marginBottom: spacing.xxxl 
+    },
+    pageCaption: { 
+      fontSize: typography.sm, 
+      color: themeColors.textSub, 
+      marginTop: -spacing.xl,
+      marginBottom: spacing.page 
     },
 
     dropdownContainer: { 
@@ -79,6 +85,81 @@ export const createDashboardStyles = (themeColors) =>
     searchButton: {
       padding: spacing.xxxl,
       marginTop: spacing.section,
+    },
+
+    input: { 
+      backgroundColor: themeColors.inputBg, 
+      borderWidth: borders.thin,
+      borderColor: themeColors.border, 
+      paddingHorizontal: spacing.page, 
+      height: sizes.input, 
+      borderRadius: radii.xl, 
+      fontSize: typography.md, 
+      color: themeColors.textMain 
+    },
+    inputFocused: { 
+      borderColor: colors.primary, 
+      backgroundColor: themeColors.surface,
+      ...shadows.focus 
+    },
+    feedbackContainer: { 
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      gap: spacing.lg, 
+      backgroundColor: colors.errorSurfaceSoft, 
+      borderColor: colors.errorStrong, 
+      borderWidth: borders.thin, 
+      borderLeftWidth: spacing.sm, 
+      borderRadius: radii.lg, 
+      padding: spacing.xxl, 
+      marginBottom: spacing.section 
+    },
+    errorText: { 
+      flex: 1, 
+      color: colors.errorStrong, 
+      fontSize: typography.sm, 
+      fontWeight: '600' 
+    },
+
+    propensityValue: { 
+      fontSize: typography.display, 
+      fontWeight: '700', 
+      color: themeColors.textMain, 
+      marginBottom: spacing.xl 
+    },
+    propensityHint: { 
+      fontSize: typography.xs, 
+      color: themeColors.textSub, 
+      marginTop: spacing.xl 
+    },
+
+    detailRow: { 
+      marginBottom: spacing.section 
+    },
+    detailHeader: { 
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      gap: spacing.md, 
+      marginBottom: spacing.md 
+    },
+    detailLabel: { 
+      fontSize: typography.xs, 
+      fontWeight: '700', 
+      color: themeColors.textSub, 
+      textTransform: 'uppercase', 
+      letterSpacing: 0.5 
+    },
+    detailValue: { 
+      fontSize: typography.body, 
+      fontWeight: '500', 
+      color: themeColors.textMain, 
+      letterSpacing: 0.3 
+    },
+    detailValueMono: { 
+      fontSize: typography.sm, 
+      fontWeight: '500', 
+      color: themeColors.textMain, 
+      letterSpacing: 0.5 
     },
 
     loadingContainer: { 
