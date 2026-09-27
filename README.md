@@ -62,7 +62,7 @@ Existem duas formas de testar o app: rodando localmente via Expo (para desenvolv
  
 Para quem quer apenas testar o app em um celular ou emulador Android, sem precisar configurar o ambiente de desenvolvimento:
  
-1. Baixe o APK mais recente: **https://expo.dev/accounts/boas.vini/projects/app-dealer-flow/builds/e783837e-59a7-446d-ac97-5f0c44beaad0**
+1. Baixe o APK mais recente: **https://expo.dev/accounts/boas.vini/projects/app-dealer-flow/builds/a9801894-0d56-4cb4-b046-9c0896491069**
 2. Transfira o arquivo `.apk` para o dispositivo Android (ou abra o link diretamente no navegador do celular).
 3. Ao abrir o arquivo, caso o Android bloqueie a instalação, ative a permissão **"Instalar apps de fontes desconhecidas"** para o navegador/gerenciador de arquivos usado.
 4. Após instalado, abra o app **DealerFlow** e faça login com as credenciais mockadas acima.
